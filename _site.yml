@@ -1,0 +1,17 @@
+name: "BST 260"
+output_dir: "."
+navbar:
+  title: "BST 260 Final Project"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Introduction"
+      href: introduction.html
+    - text: "Results"
+      href: results.html
+    - text: "Conclusion"
+      href: conclusion.html
+    - text: "References"
+      href: references.html
+    - text: "Appendix"
+      href: appendix.html
