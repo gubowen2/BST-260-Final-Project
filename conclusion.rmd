@@ -1,0 +1,19 @@
+---
+output: html_document
+---
+
+# Conclusion
+
+In this project, I predicted the number of electoral votes that Joe Biden will win in the 2024 presidential election if he and Donald Trump are the candidates of the Democrats and Republicans, respectively. I used data wrangling strategies to process the poll data from FiveThirtyEight and web scraping strategies to extract tables from websites to get information about the electoral votes for each state and the party affiliation of each state. Then I conducted the Bayesian statistical analysis. I used three different priors and got six corresponding posteriors by controlling if a bias term is added. Finally, I performed the Monte Carlo simulation to get the final estimation based on the posterior of each state.
+
+According to the results above, we can see that the election results get more uncertain if the bias term is added. It also increases Biden's winning rate for all three priors. As for the comparison between different priors, we can see that if we assume no knowledge about the previous elections and the election trends and only use the data for the current election cycle, Biden is likely to lose the next presidential election and Trump will be the next president. Interestingly, if we rely heavily on the last presidential election to set our prior, we notice that the results are overturned. It is Biden who are likely to win the next presidential election. This is anticipated since for the last month of the election, people have seen Trump's performance for the four years but they have not seen Biden's performance. As a result, the polls will go against Trump and favor Biden. However, in the 2024 presidential election, people will see how Biden performed in the four years and the polls are more likely to go against Biden. This leads to the third prior. Since the third prior assumes that in 2024, people have seen both Biden and Trump's performance during their presidency and their favor towards both candidates is mitigated, namely they do not favor strongly for either Biden or Trump, we get a much neutralized result. I believe that this result is more reasonable since it is sometimes the case that a president lose the midterm election but win in the presidential election two years later. Since I think the polls in 2020 favor Biden and the polls in 2022 favor Trump, by mitigating the polls results, we should approach the results better.
+
+Therefore, I would like to conclude that according to my analysis, despite the current low supporting rate of Biden compared to Trump, the result of the 2024 presidential election is still a close call, though the probability of Biden wins the election is still low than that of Trump.
+
+The future work of this project can be the following.
+
+1. Update the 2024 presidential election polls from FiveThirtyEight as time get closer to the election day to get a better estimation of the results.
+
+2. Gather more historical presidential election poll data to get a better idea about the election trends and bias distribution, which leads to a more reasonable and robust prior and bias term in the Bayesian statistical analysis.
+
+3. Combine the election prediction with analysis about the situation of the country and its connection to the world at that time (e.g. the economy situation, the political relationship with other countries), which leads to more sophisticated and realistic prior and bias term in the Bayesian statistical analysis.

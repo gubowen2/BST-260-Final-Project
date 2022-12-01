@@ -1,0 +1,17 @@
+---
+output: html_document
+---
+
+# References
+
+1. Rafael A. Irizarry, Introduction to Data Science - Data Analysis and Prediction Algorithms with R [http://rafalab.dfci.harvard.edu/dsbook/](http://rafalab.dfci.harvard.edu/dsbook/)
+
+2. BST 260, Homework 2: Predicting the midterm elections
+
+3. FiveThirtyEight: 2024 presidential election polls data [https://projects.fivethirtyeight.com/polls/data/president_polls.csv](https://projects.fivethirtyeight.com/polls/data/president_polls.csv)
+
+4. FiveThirtyEight: 2020 presidential election polls data [https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv](https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv)
+
+5. 1keydata: List of State Electoral Votes For 2024 [https://state.1keydata.com/state-electoral-votes.php](https://state.1keydata.com/state-electoral-votes.php)
+
+6. Pew Research Center: Party affiliation by state [https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/](https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/)

@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>appendix.knit</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BST 260 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="introduction.html">Introduction</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="conclusion.html">Conclusion</a>
+</li>
+<li>
+  <a href="references.html">References</a>
+</li>
+<li>
+  <a href="appendix.html">Appendix</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<p>Load the FiveThirtyEight president polls from <a
+href="https://projects.fivethirtyeight.com/polls/data/president_polls.csv">https://projects.fivethirtyeight.com/polls/data/president_polls.csv</a>
+into an object called <code>president_polls</code>. Remove polls that
+are not part of the 2024 president elections. Keep only the polls that
+are “general” elections and target a specific state. Also, only keep
+polls that have Biden or Trump as the candidate.</p>
+<pre class="r"><code>president_polls &lt;- read_csv(&quot;https://projects.fivethirtyeight.com/polls/data/president_polls.csv&quot;)
+president_polls &lt;- president_polls |&gt; filter(cycle == 2024 &amp; stage == &quot;general&quot; &amp; !is.na(state) &amp; candidate_name %in% c(&quot;Joe Biden&quot;, &quot;Donald Trump&quot;))
+president_polls</code></pre>
+<pre><code>## # A tibble: 306 × 42
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81693        1672 Victory …      NA &lt;NA&gt;    Victor…     673 Victor… &lt;NA&gt;   
+##  2   81693        1672 Victory …      NA &lt;NA&gt;    Victor…     673 Victor… &lt;NA&gt;   
+##  3   81693        1672 Victory …      NA &lt;NA&gt;    Victor…     673 Victor… &lt;NA&gt;   
+##  4   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  5   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  6   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## # … with 296 more rows, 33 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;chr&gt;, end_date &lt;chr&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Look at a table of the <code>fte_grade</code> given to each of the
+polls. Filter the <code>president_polls</code> data set to keep only
+polls with a grade in the top 10 grades, up to C.</p>
+<pre class="r"><code>president_polls &lt;- president_polls |&gt; filter(fte_grade &lt;= &quot;C&quot; | fte_grade == &quot;C+&quot;)
+president_polls</code></pre>
+<pre><code>## # A tibble: 258 × 42
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  2   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  3   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  4   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  5   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  6   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## # … with 248 more rows, 33 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;chr&gt;, end_date &lt;chr&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Make a table showing how many states have available poll data and
+what race_id is it.</p>
+<pre class="r"><code>temp &lt;- president_polls |&gt; distinct(across(c(race_id, state, candidate_id)))
+temp &lt;- temp |&gt; group_by(race_id, state) |&gt; summarize(candidates = length(candidate_id))
+temp</code></pre>
+<pre><code>## # A tibble: 32 × 3
+## # Groups:   race_id [32]
+##    race_id state       candidates
+##      &lt;dbl&gt; &lt;chr&gt;            &lt;int&gt;
+##  1    8755 Arkansas             2
+##  2    8759 Arizona              2
+##  3    8765 Colorado             2
+##  4    8768 Connecticut          2
+##  5    8778 Florida              2
+##  6    8781 Georgia              2
+##  7    8788 Iowa                 2
+##  8    8794 Illinois             2
+##  9    8800 Kansas               2
+## 10    8806 Louisiana            2
+## # … with 22 more rows</code></pre>
+<p>To make the following processing easier, change the name of the
+candidates to “Biden” and “Trump” respectively.</p>
+<pre class="r"><code>president_polls[&quot;candidate_name&quot;][president_polls[&quot;candidate_name&quot;] == &quot;Joe Biden&quot;] = &quot;Biden&quot;
+president_polls[&quot;candidate_name&quot;][president_polls[&quot;candidate_name&quot;] == &quot;Donald Trump&quot;] = &quot;Trump&quot;</code></pre>
+<p>Identify the columns we need to remove for <code>pivot_wider</code>
+to work and remove them. After removing these columns, use
+<code>pivot_wider</code> to create columns called <code>Biden</code> and
+<code>Trump</code> for the Democrat and Republican poll percentage,
+respectively.</p>
+<pre class="r"><code>president_polls &lt;- president_polls |&gt; select(c(-answer, -candidate_id, -party)) |&gt; pivot_wider(names_from = &quot;candidate_name&quot;, values_from = &quot;pct&quot;)
+president_polls</code></pre>
+<pre><code>## # A tibble: 142 × 39
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  2   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  3   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  4   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  5   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  6   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81544        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## # … with 132 more rows, 30 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;chr&gt;, end_date &lt;chr&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Notice that there are some rows that either miss record for the
+supporting rate for Biden or the supporting rate for Trump. Let’s show
+these rows.</p>
+<pre class="r"><code>temp &lt;- president_polls |&gt; filter(is.na(Biden) | is.na(Trump)) |&gt; select(pollster_id, question_id, Biden, Trump)
+temp</code></pre>
+<pre><code>## # A tibble: 26 × 4
+##    pollster_id question_id Biden Trump
+##          &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1         383      163416  NA    42  
+##  2        1102      163285  37.6  NA  
+##  3         458      161811  43.6  NA  
+##  4         458      161813  NA    45.6
+##  5        1102      161438  38.4  NA  
+##  6        1302      161201  43    NA  
+##  7        1302      161203  42    NA  
+##  8        1302      161204  47    NA  
+##  9        1302      161205  39    NA  
+## 10        1302      161206  33    NA  
+## # … with 16 more rows</code></pre>
+<p>According to the above table, we can see that it is the different
+question_id that prevent the rows from merging. Since there are not too
+many rows affected by this and there are only the supporting rate for
+Biden for most rows, I decide to remove all rows with missing supporting
+rate for either candidate.</p>
+<pre class="r"><code>president_polls &lt;- president_polls |&gt; filter(!is.na(Biden) &amp; !is.na(Trump))</code></pre>
+<p>Now define a new column <code>spread</code> as
+<code>(Biden-Trump)/100</code>.</p>
+<pre class="r"><code>president_polls &lt;- president_polls |&gt; mutate(spread = (Biden - Trump) / 100)
+president_polls</code></pre>
+<pre><code>## # A tibble: 116 × 40
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  2   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  3   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  4   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  5   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  6   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81544        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## # … with 106 more rows, 31 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;chr&gt;, end_date &lt;chr&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Use the <code>mdy</code> function in the <code>lubridate</code>
+package to mutate the start and end date columns in place to be Dates
+instead of characters.</p>
+<pre class="r"><code>president_polls[&quot;start_date&quot;] &lt;- mdy(president_polls$start_date)
+president_polls[&quot;end_date&quot;] &lt;- mdy(president_polls$end_date)
+president_polls</code></pre>
+<pre><code>## # A tibble: 116 × 40
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  2   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  3   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  4   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  5   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  6   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81544        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## # … with 106 more rows, 31 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;date&gt;, end_date &lt;date&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Now let’s see how many polls we have for each state.</p>
+<pre class="r"><code>president_polls |&gt; group_by(state) |&gt; summarize(count = length(state)) |&gt; arrange(-count)</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    state          count
+##    &lt;chr&gt;          &lt;int&gt;
+##  1 Georgia            9
+##  2 Missouri           8
+##  3 Arizona            7
+##  4 New Hampshire      7
+##  5 Ohio               7
+##  6 Pennsylvania       7
+##  7 Florida            6
+##  8 Iowa               6
+##  9 New York           6
+## 10 North Carolina     6
+## # … with 22 more rows</code></pre>
+<p>For states with available polls &gt; 6, let’s see how Biden and
+Trump’s supporting rates change with respect to time.</p>
+<pre class="r"><code>get_plot &lt;- function(target_state){
+  president_polls |&gt; filter(state == target_state) |&gt; ggplot(aes(x = start_date)) + geom_line(aes(y = Biden, colour = &quot;Biden&quot;)) + geom_line(aes(y = Trump, colour = &quot;Trump&quot;)) + xlab(&quot;Date&quot;) + ylab(&quot;Supporting rate&quot;) + ggtitle(target_state) + scale_colour_manual(&quot;&quot;, 
+                      breaks = c(&quot;Biden&quot;, &quot;Trump&quot;),
+                      values = c(&quot;blue&quot;, &quot;red&quot;)) + theme(legend.key.size = unit(0.5, &#39;cm&#39;), #change legend key size
+        legend.key.height = unit(0.5, &#39;cm&#39;), #change legend key height
+        legend.key.width = unit(0.5, &#39;cm&#39;), #change legend key width
+        legend.title = element_text(size=20), #change legend title font size
+        legend.text = element_text(size=10), #change legend text font size
+        plot.title = element_text(hjust = 0.5)) 
+}</code></pre>
+<pre class="r"><code>get_plot(&quot;Georgia&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>get_plot(&quot;Missouri&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>get_plot(&quot;Arizona&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre class="r"><code>get_plot(&quot;New Hampshire&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>get_plot(&quot;Pennsylvania&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>get_plot(&quot;Ohio&quot;)</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><strong>According to the plots above, we can see that Trump is
+leading Biden in all states except New Hampshire when it come to the
+midterm election</strong></p>
+<p>Now calculate the mean and the standard deviation of the spread for
+each state. Since there are still two years before the 2024 presidential
+election and I do not have a lot of polls for some states, I decide to
+keep all the states that I have at least two polls available.</p>
+<pre class="r"><code>results &lt;- president_polls |&gt; group_by(race_id, state) |&gt; summarize(average = mean(spread), standard_deviation = sd(spread), count = length(unique(poll_id))) |&gt; select(race_id, state, average, standard_deviation, count) |&gt; filter(count &gt; 1)
+results </code></pre>
+<pre><code>## # A tibble: 23 × 5
+## # Groups:   race_id [23]
+##    race_id state         average standard_deviation count
+##      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;              &lt;dbl&gt; &lt;int&gt;
+##  1    8759 Arizona       -0.0477             0.0620     6
+##  2    8765 Colorado       0.085              0.0184     2
+##  3    8768 Connecticut    0.118              0.0210     3
+##  4    8778 Florida       -0.0145             0.0540     6
+##  5    8781 Georgia       -0.0503             0.0403     8
+##  6    8788 Iowa          -0.114              0.0219     6
+##  7    8794 Illinois       0.112              0.0195     3
+##  8    8800 Kansas        -0.135              0.0240     3
+##  9    8811 Massachusetts  0.251              0.0442     3
+## 10    8820 Michigan      -0.0275             0.0672     4
+## # … with 13 more rows</code></pre>
+<p>Plot the results with confidence intervals assuming the average is
+t-distributed. Put state on the y-axis and the average along the x-axis,
+using <code>geom_errorbar</code> to specify the confidence interval
+width about the average. Order the states by the absolute value of the
+average difference so the closer races are on top. Color them blue if
+Biden is winning and red if Trump is winning (don’t show a legend).</p>
+<pre class="r"><code># Calculate 95% confidence interval
+standard_error &lt;- results$standard_deviation / sqrt(results$count)
+alpha &lt;- 0.05
+degrees_of_freedom &lt;- results$count - 1
+t_score = qt(p=alpha/2, df=degrees_of_freedom,lower.tail=F)
+margin_error &lt;- t_score * standard_error
+lower_bound &lt;- results$average - margin_error
+upper_bound &lt;- results$average + margin_error
+results |&gt; ggplot(aes(x = average, y = reorder(state, -abs(average)))) + geom_point(aes(col = ifelse(average &gt; 0, &quot;blue&quot;, ifelse(average &lt; 0, &quot;red&quot;, &quot;black&quot;))), size = 3) + geom_errorbar(aes(xmin = lower_bound, xmax = upper_bound, colour = ifelse(average &gt; 0, &quot;blue&quot;, ifelse(average &lt; 0, &quot;red&quot;, &quot;black&quot;)))) + scale_color_manual(values = c(&quot;blue&quot; = &quot;blue&quot;, &quot;red&quot;=&quot;red&quot;, &quot;black&quot;=&quot;black&quot;)) + xlab(&quot;Average&quot;) + ylab(&quot;States&quot;) + ggtitle(&quot;Poll by state&quot;) + theme(legend.position=&quot;none&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Now comes the important part. We need to predict how many electoral
+votes that Biden will win in the 2024 presidential election, so we need
+a table showing how many electoral votes that each state has. According
+to the demographic census in 2020, the electoral votes for each state
+have been updated and will firstly take effect in the 2024 presidential
+election. Below is the how I extract the table from the website.</p>
+<p>The table is located in the following website: <a
+href="https://state.1keydata.com/state-electoral-votes.php">https://state.1keydata.com/state-electoral-votes.php</a></p>
+<pre class="r"><code>url &lt;- &quot;https://state.1keydata.com/state-electoral-votes.php&quot;
+dat &lt;- read_html(url)</code></pre>
+<p>Use the <code>html_nodes</code> function and the <code>table</code>
+node to extract the table we need.</p>
+<pre class="r"><code>nodes &lt;- dat |&gt; html_nodes(&quot;table&quot;)
+nodes</code></pre>
+<pre><code>## {xml_nodeset (11)}
+##  [1] &lt;table border=&quot;0&quot; class=&quot;container&quot; cellpadding=&quot;0&quot; cellspacing=&quot;10&quot; bgc ...
+##  [2] &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; bgcolor=&quot;FFFFFF&quot;&gt;&lt;tr valign=&quot;top&quot;&gt;&lt;td&gt; ...
+##  [3] &lt;table border=&quot;1&quot; width=&quot;80%&quot; class=&quot;content1&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n ...
+##  [4] &lt;table border=&quot;1&quot; class=&quot;content2&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n&lt;td&gt;&lt;center&gt; ...
+##  [5] &lt;table border=&quot;1&quot; width=&quot;80%&quot; class=&quot;content1&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n ...
+##  [6] &lt;table border=&quot;1&quot; width=&quot;80%&quot; class=&quot;content1&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n ...
+##  [7] &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;\n&lt;td ...
+##  [8] &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;\n&lt;td ...
+##  [9] &lt;table border=&quot;1&quot; width=&quot;80%&quot; class=&quot;content1&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n ...
+## [10] &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tr&gt;\n&lt;td ...
+## [11] &lt;table border=&quot;1&quot; width=&quot;80%&quot; class=&quot;content1&quot;&gt;\n&lt;tr bgcolor=&quot;0033FF&quot;&gt;\n ...</code></pre>
+<p>Our table of interest is the fourth table, so we extract it below and
+do some modifications.</p>
+<pre class="r"><code>votes &lt;- html_table(nodes[[4]], header = TRUE) |&gt; select(2, 3)
+colnames(votes)[1] &lt;- &#39;state&#39;
+colnames(votes)[2] &lt;- &#39;electoral_votes&#39;
+votes</code></pre>
+<pre><code>## # A tibble: 50 × 2
+##    state          electoral_votes
+##    &lt;chr&gt;                    &lt;int&gt;
+##  1 California                  54
+##  2 Texas                       40
+##  3 Florida                     30
+##  4 New York                    28
+##  5 Illinois                    19
+##  6 Pennsylvania                19
+##  7 Ohio                        17
+##  8 Georgia                     16
+##  9 North Carolina              16
+## 10 Michigan                    15
+## # … with 40 more rows</code></pre>
+<p>The table above does not include District of Columbia, which has 3
+electoral votes, so I add it into the table.</p>
+<pre class="r"><code>add &lt;- data.frame(&quot;District of Columbia&quot;, 3)
+names(add)=c(&quot;state&quot;,&quot;electoral_votes&quot;)
+votes &lt;- votes |&gt; rbind(add) |&gt; arrange(-electoral_votes, state)
+votes</code></pre>
+<pre><code>## # A tibble: 51 × 2
+##    state          electoral_votes
+##    &lt;chr&gt;                    &lt;dbl&gt;
+##  1 California                  54
+##  2 Texas                       40
+##  3 Florida                     30
+##  4 New York                    28
+##  5 Illinois                    19
+##  6 Pennsylvania                19
+##  7 Ohio                        17
+##  8 Georgia                     16
+##  9 North Carolina              16
+## 10 Michigan                    15
+## # … with 41 more rows</code></pre>
+<p>Let’s see how many electoral votes will be needed to win the 2024
+presidential election.</p>
+<pre class="r"><code>total &lt;- sum(votes$electoral_votes)
+print(paste(total %/% 2 + 1, &quot; electoral votes are needed to win the 2024 presidential election&quot;))</code></pre>
+<pre><code>## [1] &quot;270  electoral votes are needed to win the 2024 presidential election&quot;</code></pre>
+<p>Join this table and the “results” table above.</p>
+<pre class="r"><code>results &lt;- left_join(results, votes, by = &quot;state&quot;)
+results</code></pre>
+<pre><code>## # A tibble: 23 × 6
+## # Groups:   race_id [23]
+##    race_id state         average standard_deviation count electoral_votes
+##      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;              &lt;dbl&gt; &lt;int&gt;           &lt;dbl&gt;
+##  1    8759 Arizona       -0.0477             0.0620     6              11
+##  2    8765 Colorado       0.085              0.0184     2              10
+##  3    8768 Connecticut    0.118              0.0210     3               7
+##  4    8778 Florida       -0.0145             0.0540     6              30
+##  5    8781 Georgia       -0.0503             0.0403     8              16
+##  6    8788 Iowa          -0.114              0.0219     6               6
+##  7    8794 Illinois       0.112              0.0195     3              19
+##  8    8800 Kansas        -0.135              0.0240     3               6
+##  9    8811 Massachusetts  0.251              0.0442     3              11
+## 10    8820 Michigan      -0.0275             0.0672     4              15
+## # … with 13 more rows</code></pre>
+<p>Now implement a Bayesian approach. Firstly, let’s use a basic prior
+(<span class="math inline">\(\mu = 0\)</span>, <span
+class="math inline">\(\sigma = 0.04\)</span>) assuming no knowledge
+about the historical elections and the election trends.</p>
+<pre class="r"><code>mu &lt;- 0.00
+tau &lt;- 0.04
+results_no_bias &lt;- results |&gt; mutate(prior_average = mu, 
+                             prior_sd = tau, 
+                             sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + tau^2),
+                             posterior_mean = B * mu + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/tau^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+results_no_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state   average stand…¹ count elect…² prior…³ prior…⁴ poste…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Arizona -0.0477  0.0620     6      11       0    0.04 -0.0341 0.0214 
+##  2    8765 Colora…  0.085   0.0184     2      10       0    0.04  0.0769 0.0124 
+##  3    8768 Connec…  0.118   0.0210     3       7       0    0.04  0.108  0.0116 
+##  4    8778 Florida -0.0145  0.0540     6      30       0    0.04 -0.0111 0.0193 
+##  5    8781 Georgia -0.0503  0.0403     8      16       0    0.04 -0.0447 0.0134 
+##  6    8788 Iowa    -0.114   0.0219     6       6       0    0.04 -0.109  0.00872
+##  7    8794 Illino…  0.112   0.0195     3      19       0    0.04  0.104  0.0108 
+##  8    8800 Kansas  -0.135   0.0240     3       6       0    0.04 -0.120  0.0131 
+##  9    8811 Massac…  0.251   0.0442     3      11       0    0.04  0.178  0.0215 
+## 10    8820 Michig… -0.0275  0.0672     4      15       0    0.04 -0.0161 0.0257 
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Show a table of states with the probability (in percentages) of the
+Biden winning ordered by that probability. If a probability is larger
+than 99%, show &gt;99%, and if smaller than 1% then show &lt;1%.</p>
+<pre class="r"><code>temp &lt;- results_no_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;)) |&gt; arrange(-Biden_win_prob)
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8768 Connecticut   &gt; 99 %   
+##  2    8794 Illinois      &gt; 99 %   
+##  3    8811 Massachusetts &gt; 99 %   
+##  4    8877 Rhode Island  &gt; 99 %   
+##  5    8765 Colorado      &gt; 99 %   
+##  6    8854 New Mexico    &gt; 99 %   
+##  7    8860 New York      &gt; 99 %   
+##  8    8869 Oregon        &gt; 99 %   
+##  9    8848 New Hampshire &gt; 99 %   
+## 10    8905 Wisconsin     40.14 %  
+## # … with 13 more rows</code></pre>
+<p>Note that there are several states that do not appear in the
+“results_no_bias” table above. This is because the election in these
+states are usually certain. As a result, I use the following strategy.
+If the state is not in the “results_no_bias” table, I consider the
+election results in these states are certain and count the electoral
+votes towards their party affiliation. To get the party affiliation, I
+extracted the following table from <a
+href="https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/">https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/</a>
+using the similar web scraping strategy mentioned above.</p>
+<pre class="r"><code>url &lt;- &quot;https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/&quot;
+dat &lt;- read_html(url)
+nodes &lt;- dat |&gt; html_nodes(&quot;table&quot;)
+nodes</code></pre>
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;table class=&quot;ui\tcelled table&quot; data-iframe-height&gt;\n&lt;thead&gt;&lt;tr&gt;\n&lt;th&gt;Sta ...</code></pre>
+<pre class="r"><code>affiliation &lt;- html_table(nodes[[1]], header = TRUE)
+colnames(affiliation)[1] &lt;- &#39;state&#39;
+colnames(affiliation)[2] &lt;- &#39;Rep&#39;
+colnames(affiliation)[3] &lt;- &#39;None&#39;
+colnames(affiliation)[4] &lt;- &#39;Dem&#39;
+affiliation</code></pre>
+<pre><code>## # A tibble: 51 × 5
+##    state                Rep   None  Dem   `Sample\tsize`
+##    &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         
+##  1 Alabama              52%   13%   35%   511           
+##  2 Alaska               39%   29%   32%   310           
+##  3 Arizona              40%   21%   39%   653           
+##  4 Arkansas             46%   16%   38%   311           
+##  5 California           30%   21%   49%   3,697         
+##  6 Colorado             41%   17%   42%   504           
+##  7 Connecticut          32%   18%   50%   377           
+##  8 Delaware             29%   17%   55%   301           
+##  9 District of Columbia 11%   15%   73%   303           
+## 10 Florida              37%   19%   44%   2,020         
+## # … with 41 more rows</code></pre>
+<p>The table above shows the percentage of the party affiliation that
+the adults in the states consider themselves as. Here, I consider the
+state as a “Blue state” if it has more adults that think they are
+Democrats. and a “Red state” if it has more adults that think they are
+Republicans. Otherwise, I label the state as a “White state” since it
+has no affiliation. As a result, I get the following table.</p>
+<pre class="r"><code>affiliation &lt;- affiliation |&gt; mutate(affiliation = ifelse(Dem &gt; Rep, &quot;B&quot;, ifelse(Rep &gt; Dem, &quot;R&quot;, &quot;W&quot;)))  |&gt; select(-&quot;Sample size&quot;)
+affiliation</code></pre>
+<pre><code>## # A tibble: 51 × 5
+##    state                Rep   None  Dem   affiliation
+##    &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      
+##  1 Alabama              52%   13%   35%   R          
+##  2 Alaska               39%   29%   32%   R          
+##  3 Arizona              40%   21%   39%   R          
+##  4 Arkansas             46%   16%   38%   R          
+##  5 California           30%   21%   49%   B          
+##  6 Colorado             41%   17%   42%   B          
+##  7 Connecticut          32%   18%   50%   B          
+##  8 Delaware             29%   17%   55%   B          
+##  9 District of Columbia 11%   15%   73%   B          
+## 10 Florida              37%   19%   44%   B          
+## # … with 41 more rows</code></pre>
+<p>Now let’s only keep the states that are not in the “results_no_bias”
+table since we will use a Monte Carlo simulation to determine the
+election results in those states.</p>
+<pre class="r"><code>affiliation &lt;- affiliation |&gt; filter(!state %in% results_no_bias$state)
+affiliation</code></pre>
+<pre><code>## # A tibble: 28 × 5
+##    state                Rep   None  Dem   affiliation
+##    &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      
+##  1 Alabama              52%   13%   35%   R          
+##  2 Alaska               39%   29%   32%   R          
+##  3 Arkansas             46%   16%   38%   R          
+##  4 California           30%   21%   49%   B          
+##  5 Delaware             29%   17%   55%   B          
+##  6 District of Columbia 11%   15%   73%   B          
+##  7 Hawaii               28%   20%   51%   B          
+##  8 Idaho                49%   19%   32%   R          
+##  9 Indiana              42%   20%   37%   R          
+## 10 Kentucky             44%   13%   43%   R          
+## # … with 18 more rows</code></pre>
+<p>Let’s assume that Biden manage to win in all blue states that remain
+in the “affiliation” table and lose in all red states that remain in the
+“affiliation” table. Before using the Monte Carlo simulation, let’s see
+how many electoral votes that Biden has already won.</p>
+<pre class="r"><code>affiliation &lt;- left_join(affiliation, votes, by = &quot;state&quot;)
+total_votes &lt;- affiliation |&gt; filter(affiliation == &quot;B&quot;) |&gt; pull(electoral_votes)
+Biden_win_electoral_votes &lt;- sum(total_votes)
+print(paste(&quot;Based on the assumption, Biden has already won &quot;, Biden_win_electoral_votes, &quot; electoral votes&quot;))</code></pre>
+<pre><code>## [1] &quot;Based on the assumption, Biden has already won  125  electoral votes&quot;</code></pre>
+<p>Now Create a Monte Carlo simulation of each state’s election using
+number of simulations <code>B=10000</code>, where each simulation
+outputs the total number of electoral votes that Biden will win in the
+2024 presidential election. Assume each state’s election is normally
+distributed with the posterior mean and standard error in the
+<code>results_no_bias</code> data frame. Show a histogram of the results
+for the number of electoral votes.</p>
+<pre class="r"><code># We now start the Monte Carlo simulation based on the above result
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(results_no_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = results_no_bias$posterior_mean[i], sd = results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = results_no_bias$posterior_mean[i], sd = results_no_bias$posterior_sd[i], lower.tail = TRUE))) * results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Show the probability that Biden wins the 2024 presidential election,
+assuming win means 270 or more electoral votes.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that Biden wins the 2024 presidential election is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that Biden wins the 2024 presidential election is  8.75 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 221 ,  261 ]&quot;</code></pre>
+<p>Now including a bias with average <code>bias_avg</code> and standard
+error of <code>bias_sd</code> to add the uncertainty to the
+election.</p>
+<pre class="r"><code># According to section 16.8.4 in the book, I set bias_sd to be 0.03. I also set bias_avg to be 0.00 since I do not think the bias will go towards either party
+mu &lt;- 0.00
+tau &lt;- 0.04
+bias_avg &lt;- 0.00
+bias_sd &lt;- 0.03
+results_bias &lt;- results |&gt; mutate(prior_average = mu, 
+                             prior_sd = tau, 
+                             sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + tau^2),
+                             posterior_mean = B * mu + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/tau^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+results_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state  average stand…¹ count elect…² prior…³ prior…⁴ poster…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Arizo… -0.0477  0.0620     6      11       0    0.04 -0.0243   0.0280
+##  2    8765 Color…  0.085   0.0184     2      10       0    0.04  0.0510   0.0253
+##  3    8768 Conne…  0.118   0.0210     3       7       0    0.04  0.0713   0.0252
+##  4    8778 Flori… -0.0145  0.0540     6      30       0    0.04 -0.00777  0.0273
+##  5    8781 Georg… -0.0503  0.0403     8      16       0    0.04 -0.0298   0.0256
+##  6    8788 Iowa   -0.114   0.0219     6       6       0    0.04 -0.0708   0.0247
+##  7    8794 Illin…  0.112   0.0195     3      19       0    0.04  0.0682   0.0250
+##  8    8800 Kansas -0.135   0.0240     3       6       0    0.04 -0.0800   0.0255
+##  9    8811 Massa…  0.251   0.0442     3      11       0    0.04  0.127    0.0281
+## 10    8820 Michi… -0.0275  0.0672     4      15       0    0.04 -0.0121   0.0299
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Print out the table of states with Biden’s probabilities of winning.
+If a probability is larger than 99%, show &gt;99%, and if smaller than
+1% then show &lt;1%.</p>
+<pre class="r"><code># Print out the table of states with Biden&#39;s probabilities of winning
+temp &lt;- results_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;))
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8759 Arizona       19.28 %  
+##  2    8765 Colorado      97.79 %  
+##  3    8768 Connecticut   &gt; 99 %   
+##  4    8778 Florida       38.78 %  
+##  5    8781 Georgia       12.18 %  
+##  6    8788 Iowa          &lt; 1 %    
+##  7    8794 Illinois      &gt; 99 %   
+##  8    8800 Kansas        &lt; 1 %    
+##  9    8811 Massachusetts &gt; 99 %   
+## 10    8820 Michigan      34.26 %  
+## # … with 13 more rows</code></pre>
+<p>Now run a simulation to get a final answer for the total of electoral
+votes that Biden will win in the 2024 presidential election.</p>
+<pre class="r"><code># Use the updated results table to perform the Monte Carlo simulation
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(results_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = results_bias$posterior_mean[i], sd = results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = results_bias$posterior_mean[i], sd = results_bias$posterior_sd[i], lower.tail = TRUE))) * results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Let’s see now how likely Biden will win against Trump with the new
+posterior.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that the Democrats control the Senate is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that the Democrats control the Senate is  30.45 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 227 ,  285 ]&quot;</code></pre>
+<p>According to the above results, by adding a bias term, the election
+results become more uncertain and Biden’s winning rate increases.
+However, Biden will still suffer great loss regardless of the bias term
+is added or not. However, the above results are based on the prior that
+has no knowledge about the previous presidential elections and we are
+subjected to limited poll data.</p>
+<p>The previous analysis may give a more plausible prediction if we can
+set a better prior for each state. To achieve this, we use the poll
+results from the 2020 presidential election. This is because this
+election is also between Biden and Trump. First, let’s get the data from
+FiveThirtyEight again and conduct necessary data wrangling. The data is
+available at <a
+href="https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv">https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv</a></p>
+<pre class="r"><code>president_polls_2020 &lt;- read_csv(&quot;https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv&quot;)
+president_polls_2020 &lt;- president_polls_2020 |&gt; filter(cycle == 2020 &amp; stage == &quot;general&quot; &amp; !is.na(state) &amp; candidate_name %in% c(&quot;Joe Biden&quot;, &quot;Donald Trump&quot;) &amp; fte_grade &lt;= &quot;C&quot; | fte_grade == &quot;C+&quot;)
+president_polls_2020[&quot;start_date&quot;] &lt;- mdy(president_polls_2020$start_date)
+president_polls_2020[&quot;end_date&quot;] &lt;- mdy(president_polls_2020$end_date)
+president_polls_2020[&quot;election_date&quot;] &lt;- mdy(president_polls_2020$election_date)
+president_polls_2020[&quot;candidate_name&quot;][president_polls_2020[&quot;candidate_name&quot;] == &quot;Joe Biden&quot;] = &quot;Biden&quot;
+president_polls_2020[&quot;candidate_name&quot;][president_polls_2020[&quot;candidate_name&quot;] == &quot;Donald Trump&quot;] = &quot;Trump&quot;
+president_polls_2020</code></pre>
+<pre><code>## # A tibble: 9,597 × 42
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   72621         383 PPP            NA &lt;NA&gt;    Public…     263 Public… A-     
+##  2   72621         383 PPP            NA &lt;NA&gt;    Public…     263 Public… A-     
+##  3   72647         461 Susqueha…      NA &lt;NA&gt;    Susque…     326 Susque… B+     
+##  4   72647         461 Susqueha…      NA &lt;NA&gt;    Susque…     326 Susque… B+     
+##  5   72722         235 InsiderA…     364 FOX35 … Inside…     243 Opinio… B      
+##  6   72722         235 InsiderA…     364 FOX35 … Inside…     243 Opinio… B      
+##  7   72806        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+##  8   72806        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+##  9   72861        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+## 10   72861        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+## # … with 9,587 more rows, 33 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;date&gt;, end_date &lt;date&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>Use “pivot_wider” to merge the rows and create the “spread” column
+that indicates the supporting rate spread between Biden and Trump.</p>
+<pre class="r"><code>president_polls_2020 &lt;- president_polls_2020 |&gt; select(c(-answer, -candidate_id, -party)) |&gt; pivot_wider(names_from = &quot;candidate_name&quot;, values_from = &quot;pct&quot;) |&gt; mutate(spread = (Biden - Trump) / 100) |&gt; filter(!is.na(spread))
+president_polls_2020</code></pre>
+<pre><code>## # A tibble: 4,407 × 44
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   72621         383 PPP            NA &lt;NA&gt;    Public…     263 Public… A-     
+##  2   72647         461 Susqueha…      NA &lt;NA&gt;    Susque…     326 Susque… B+     
+##  3   72722         235 InsiderA…     364 FOX35 … Inside…     243 Opinio… B      
+##  4   72806        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+##  5   72861        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+##  6   72862        1250 Trafalga…      NA &lt;NA&gt;    Trafal…     338 Trafal… A-     
+##  7   72864        1240 Øptimus        NA &lt;NA&gt;    Øptimus     245 Optimus B/C    
+##  8   72754        1613 Universi…      NA &lt;NA&gt;    Univer…     609 Univer… B/C    
+##  9   72757        1365 Change R…      NA &lt;NA&gt;    Change…      48 Change… B-     
+## 10   72762        1365 Change R…      NA &lt;NA&gt;    Change…      48 Change… B-     
+## # … with 4,397 more rows, 35 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;date&gt;, end_date &lt;date&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>After consideration, I think a good prior should be set as a normal
+distribution since the election result is usually normally distributed.
+The mean of prior should be the average of the spread within the final
+month of the election since we want to predict the results that are
+close to the election day. The standard deviation of the prior should be
+variance between 2018 to 2020. This is because the earliest poll data
+from FiveThirtyEight is since 2018 and I want the standard deviation to
+be relatively large to account for uncertainties since I am predicting
+the 2024 presidential election using the data in 2022 and a lot can
+happen during the next two years. Let’s find the mean and the standard
+deviation of the prior following the definitions above.</p>
+<pre class="r"><code>temp_1 &lt;- president_polls_2020 |&gt; filter(start_date &gt; election_date - months(1)) |&gt; group_by(state) |&gt; summarize(prior_average = mean(spread)) |&gt; filter(!is.na(prior_average))
+temp_1</code></pre>
+<pre><code>## # A tibble: 54 × 2
+##    state                prior_average
+##    &lt;chr&gt;                        &lt;dbl&gt;
+##  1 Alabama                    -0.195 
+##  2 Alaska                     -0.0846
+##  3 Arizona                     0.0349
+##  4 Arkansas                   -0.210 
+##  5 California                  0.278 
+##  6 Colorado                    0.134 
+##  7 Connecticut                 0.239 
+##  8 Delaware                    0.229 
+##  9 District of Columbia        0.863 
+## 10 Florida                     0.0207
+## # … with 44 more rows</code></pre>
+<pre class="r"><code>temp_2 &lt;- president_polls_2020 |&gt; group_by(state) |&gt; summarize(prior_sd = sd(spread)) |&gt; filter(!is.na(prior_sd))
+temp_2</code></pre>
+<pre><code>## # A tibble: 54 × 2
+##    state                prior_sd
+##    &lt;chr&gt;                   &lt;dbl&gt;
+##  1 Alabama                0.0464
+##  2 Alaska                 0.0300
+##  3 Arizona                0.0368
+##  4 Arkansas               0.0548
+##  5 California             0.0380
+##  6 Colorado               0.0391
+##  7 Connecticut            0.0383
+##  8 Delaware               0.0455
+##  9 District of Columbia   0.0494
+## 10 Florida                0.0317
+## # … with 44 more rows</code></pre>
+<p>Note that there are more than 50 rows in the tables above. This is
+because there are polls for some regions of one state, but this does not
+matter since we only want to have the prior mean and standard deviation
+that are in “results” table above. Now we add what we have found into
+the “results” table by joining it with the “temp_1” and “temp_2”
+table.</p>
+<pre class="r"><code>updated_results &lt;- left_join(results, temp_1, by = &quot;state&quot;)
+updated_results &lt;- left_join(updated_results, temp_2, by = &quot;state&quot;)
+updated_results</code></pre>
+<pre><code>## # A tibble: 23 × 8
+## # Groups:   race_id [23]
+##    race_id state         average standard_devia…¹ count elect…² prior_…³ prior…⁴
+##      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Arizona       -0.0477           0.0620     6      11  3.49e-2  0.0368
+##  2    8765 Colorado       0.085            0.0184     2      10  1.34e-1  0.0391
+##  3    8768 Connecticut    0.118            0.0210     3       7  2.39e-1  0.0383
+##  4    8778 Florida       -0.0145           0.0540     6      30  2.07e-2  0.0317
+##  5    8781 Georgia       -0.0503           0.0403     8      16  2.10e-2  0.0362
+##  6    8788 Iowa          -0.114            0.0219     6       6 -1.00e-4  0.0303
+##  7    8794 Illinois       0.112            0.0195     3      19  1.68e-1  0.0310
+##  8    8800 Kansas        -0.135            0.0240     3       6 -1.05e-1  0.0347
+##  9    8811 Massachusetts  0.251            0.0442     3      11  3.84e-1  0.0312
+## 10    8820 Michigan      -0.0275           0.0672     4      15  7.53e-2  0.0385
+## # … with 13 more rows, and abbreviated variable names ¹​standard_deviation,
+## #   ²​electoral_votes, ³​prior_average, ⁴​prior_sd</code></pre>
+<p>Perform a Bayesian approach using the updated prior average and
+standard deviation. First, let’s assume no bias term.</p>
+<pre class="r"><code>updated_results_no_bias &lt;- updated_results |&gt; mutate(sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+updated_results_no_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state average stand…¹ count elect…² prior_…³ prior…⁴ poster…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Ariz… -0.0477  0.0620     6      11  3.49e-2  0.0368 -0.0212  0.0209 
+##  2    8765 Colo…  0.085   0.0184     2      10  1.34e-1  0.0391  0.0899  0.0123 
+##  3    8768 Conn…  0.118   0.0210     3       7  2.39e-1  0.0383  0.129   0.0116 
+##  4    8778 Flor… -0.0145  0.0540     6      30  2.07e-2  0.0317 -0.00302 0.0181 
+##  5    8781 Geor… -0.0503  0.0403     8      16  2.10e-2  0.0362 -0.0407  0.0133 
+##  6    8788 Iowa  -0.114   0.0219     6       6 -1.00e-4  0.0303 -0.105   0.00857
+##  7    8794 Illi…  0.112   0.0195     3      19  1.68e-1  0.0310  0.119   0.0106 
+##  8    8800 Kans… -0.135   0.0240     3       6 -1.05e-1  0.0347 -0.131   0.0129 
+##  9    8811 Mass…  0.251   0.0442     3      11  3.84e-1  0.0312  0.304   0.0198 
+## 10    8820 Mich… -0.0275  0.0672     4      15  7.53e-2  0.0385  0.0170  0.0253 
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Print out the table of states with Biden’s probabilities of winning.
+If a probability is larger than 99%, show &gt;99%, and if smaller than
+1% then show &lt;1%.</p>
+<pre class="r"><code>temp &lt;- updated_results_no_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;)) |&gt; arrange(-Biden_win_prob)
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8768 Connecticut   &gt; 99 %   
+##  2    8794 Illinois      &gt; 99 %   
+##  3    8811 Massachusetts &gt; 99 %   
+##  4    8860 New York      &gt; 99 %   
+##  5    8869 Oregon        &gt; 99 %   
+##  6    8877 Rhode Island  &gt; 99 %   
+##  7    8765 Colorado      &gt; 99 %   
+##  8    8854 New Mexico    &gt; 99 %   
+##  9    8848 New Hampshire &gt; 99 %   
+## 10    8905 Wisconsin     87.12 %  
+## # … with 13 more rows</code></pre>
+<p>Create a Monte Carlo simulation using the updated posterior average
+and standard deviation.</p>
+<pre class="r"><code># We now start the Monte Carlo simulation based on the above result
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(updated_results_no_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>Let’s see now how likely Biden will win against Trump with the new
+posterior.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that Biden wins the 2024 presidential election is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that Biden wins the 2024 presidential election is  44.96 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 246 ,  295 ]&quot;</code></pre>
+<p>Now including a bias with average <code>bias_avg</code> and standard
+error of <code>bias_sd</code> to add the uncertainty to the election.
+Print out the table of states with Biden’s probabilities of winning.</p>
+<pre class="r"><code># According to section 16.8.4 in the book, I set bias_sd to be 0.03. I also set bias_avg to be 0.00 since I do not think the bias will go towards either party
+bias_avg &lt;- 0.00
+bias_sd &lt;- 0.03
+updated_results_bias &lt;- updated_results |&gt; mutate(sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+
+
+updated_results_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state average stand…¹ count elect…² prior_…³ prior…⁴ poster…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Ariz… -0.0477  0.0620     6      11  3.49e-2  0.0368 -0.00375  0.0268
+##  2    8765 Colo…  0.085   0.0184     2      10  1.34e-1  0.0391  0.105    0.0251
+##  3    8768 Conn…  0.118   0.0210     3       7  2.39e-1  0.0383  0.168    0.0247
+##  4    8778 Flor… -0.0145  0.0540     6      30  2.07e-2  0.0317  0.00591  0.0241
+##  5    8781 Geor… -0.0503  0.0403     8      16  2.10e-2  0.0362 -0.0177   0.0245
+##  6    8788 Iowa  -0.114   0.0219     6       6 -1.00e-4  0.0303 -0.0553   0.0218
+##  7    8794 Illi…  0.112   0.0195     3      19  1.68e-1  0.0310  0.141    0.0223
+##  8    8800 Kans… -0.135   0.0240     3       6 -1.05e-1  0.0347 -0.121    0.0239
+##  9    8811 Mass…  0.251   0.0442     3      11  3.84e-1  0.0312  0.333    0.0245
+## 10    8820 Mich… -0.0275  0.0672     4      15  7.53e-2  0.0385  0.0320   0.0292
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Print out the table of states with Biden’s probabilities of winning.
+If a probability is larger than 99%, show &gt;99%, and if smaller than
+1% then show &lt;1%.</p>
+<pre class="r"><code># Print out the table of states with Biden&#39;s probabilities of winning
+temp &lt;- updated_results_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;))
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8759 Arizona       44.45 %  
+##  2    8765 Colorado      &gt; 99 %   
+##  3    8768 Connecticut   &gt; 99 %   
+##  4    8778 Florida       59.68 %  
+##  5    8781 Georgia       23.44 %  
+##  6    8788 Iowa          &lt; 1 %    
+##  7    8794 Illinois      &gt; 99 %   
+##  8    8800 Kansas        &lt; 1 %    
+##  9    8811 Massachusetts &gt; 99 %   
+## 10    8820 Michigan      86.27 %  
+## # … with 13 more rows</code></pre>
+<p>Create a Monte Carlo simulation using the updated posterior average
+and standard deviation.</p>
+<pre class="r"><code># We now start the Monte Carlo simulation based on the above result
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(updated_results_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>Let’s see now how likely Biden will win against Trump with the new
+posterior.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that Biden wins the 2024 presidential election is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that Biden wins the 2024 presidential election is  87.74 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 265 ,  322 ]&quot;</code></pre>
+<p>According to the results above, we can see that Biden’s winning rate
+increases greatly against Trump in both cases (with or without the
+bias), and it suggests that it is Biden who are supposed to win the
+election, which overturns the results generated using our previous
+prior. This is anticipated since for the last month of the election,
+people have seen Trump’s performance for the four years but they have
+not seen Biden’s performance. As a result, the polls will go against
+Trump and favor Biden. However, in the 2024 presidential election,
+people will see how Biden performed in the four years and the polls are
+more likely to go against Biden.</p>
+<p>Let’s have another try by assuming that in 2024, people have seen
+both Biden and Trump’s performance during their presidency and their
+favor towards both candidates is mitigated, namely they do not favor
+strongly for either Biden or Trump. Based on this assumption, we can
+have another prior with the prior mean to be the average of the current
+poll average and the average of the polls in the last month of the 2020
+presidential election, with the prior standard deviation the same as the
+one in our second try.</p>
+<pre class="r"><code>updated_results[&quot;prior_average&quot;] &lt;- (updated_results$average + updated_results$prior_average) / 2
+updated_results</code></pre>
+<pre><code>## # A tibble: 23 × 8
+## # Groups:   race_id [23]
+##    race_id state         average standard_devia…¹ count elect…² prior_…³ prior…⁴
+##      &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Arizona       -0.0477           0.0620     6      11 -0.00640  0.0368
+##  2    8765 Colorado       0.085            0.0184     2      10  0.110    0.0391
+##  3    8768 Connecticut    0.118            0.0210     3       7  0.178    0.0383
+##  4    8778 Florida       -0.0145           0.0540     6      30  0.00310  0.0317
+##  5    8781 Georgia       -0.0503           0.0403     8      16 -0.0147   0.0362
+##  6    8788 Iowa          -0.114            0.0219     6       6 -0.0571   0.0303
+##  7    8794 Illinois       0.112            0.0195     3      19  0.140    0.0310
+##  8    8800 Kansas        -0.135            0.0240     3       6 -0.120    0.0347
+##  9    8811 Massachusetts  0.251            0.0442     3      11  0.318    0.0312
+## 10    8820 Michigan      -0.0275           0.0672     4      15  0.0239   0.0385
+## # … with 13 more rows, and abbreviated variable names ¹​standard_deviation,
+## #   ²​electoral_votes, ³​prior_average, ⁴​prior_sd</code></pre>
+<p>Perform a Bayesian approach using the updated prior average and
+standard deviation. First, let’s assume no bias term.</p>
+<pre class="r"><code>updated_results_no_bias &lt;- updated_results |&gt; mutate(sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+updated_results_no_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state average stand…¹ count elect…² prior_…³ prior…⁴ poster…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Ariz… -0.0477  0.0620     6      11 -0.00640  0.0368 -0.0345  0.0209 
+##  2    8765 Colo…  0.085   0.0184     2      10  0.110    0.0391  0.0875  0.0123 
+##  3    8768 Conn…  0.118   0.0210     3       7  0.178    0.0383  0.124   0.0116 
+##  4    8778 Flor… -0.0145  0.0540     6      30  0.00310  0.0317 -0.00876 0.0181 
+##  5    8781 Geor… -0.0503  0.0403     8      16 -0.0147   0.0362 -0.0455  0.0133 
+##  6    8788 Iowa  -0.114   0.0219     6       6 -0.0571   0.0303 -0.110   0.00857
+##  7    8794 Illi…  0.112   0.0195     3      19  0.140    0.0310  0.115   0.0106 
+##  8    8800 Kans… -0.135   0.0240     3       6 -0.120    0.0347 -0.133   0.0129 
+##  9    8811 Mass…  0.251   0.0442     3      11  0.318    0.0312  0.278   0.0198 
+## 10    8820 Mich… -0.0275  0.0672     4      15  0.0239   0.0385 -0.00525 0.0253 
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Print out the table of states with Biden’s probabilities of winning.
+If a probability is larger than 99%, show &gt;99%, and if smaller than
+1% then show &lt;1%.</p>
+<pre class="r"><code>temp &lt;- updated_results_no_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;)) |&gt; arrange(-Biden_win_prob)
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8768 Connecticut   &gt; 99 %   
+##  2    8794 Illinois      &gt; 99 %   
+##  3    8811 Massachusetts &gt; 99 %   
+##  4    8860 New York      &gt; 99 %   
+##  5    8869 Oregon        &gt; 99 %   
+##  6    8877 Rhode Island  &gt; 99 %   
+##  7    8765 Colorado      &gt; 99 %   
+##  8    8854 New Mexico    &gt; 99 %   
+##  9    8848 New Hampshire &gt; 99 %   
+## 10    8905 Wisconsin     64.12 %  
+## # … with 13 more rows</code></pre>
+<p>Create a Monte Carlo simulation using the updated posterior average
+and standard deviation.</p>
+<pre class="r"><code># We now start the Monte Carlo simulation based on the above result
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(updated_results_no_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p>Let’s see now how likely Biden will win against Trump with the new
+posterior.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that Biden wins the 2024 presidential election is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that Biden wins the 2024 presidential election is  15.42 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 221 ,  265 ]&quot;</code></pre>
+<p>Now including a bias with average <code>bias_avg</code> and standard
+error of <code>bias_sd</code> to add the uncertainty to the election.
+Print out the table of states with Biden’s probabilities of winning.</p>
+<pre class="r"><code># According to section 16.8.4 in the book, I set bias_sd to be 0.03. I also set bias_avg to be 0.00 since I do not think the bias will go towards either party
+bias_avg &lt;- 0.00
+bias_sd &lt;- 0.03
+updated_results_bias &lt;- updated_results |&gt; mutate(sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |&gt; select(-sigma, -B)
+
+
+updated_results_bias</code></pre>
+<pre><code>## # A tibble: 23 × 11
+## # Groups:   race_id [23]
+##    race_id state average stand…¹ count elect…² prior_…³ prior…⁴ poster…⁵ poste…⁶
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1    8759 Ariz… -0.0477  0.0620     6      11 -0.00640  0.0368 -0.0257   0.0268
+##  2    8765 Colo…  0.085   0.0184     2      10  0.110    0.0391  0.0951   0.0251
+##  3    8768 Conn…  0.118   0.0210     3       7  0.178    0.0383  0.143    0.0247
+##  4    8778 Flor… -0.0145  0.0540     6      30  0.00310  0.0317 -0.00429  0.0241
+##  5    8781 Geor… -0.0503  0.0403     8      16 -0.0147   0.0362 -0.0340   0.0245
+##  6    8788 Iowa  -0.114   0.0219     6       6 -0.0571   0.0303 -0.0848   0.0218
+##  7    8794 Illi…  0.112   0.0195     3      19  0.140    0.0310  0.127    0.0223
+##  8    8800 Kans… -0.135   0.0240     3       6 -0.120    0.0347 -0.128    0.0239
+##  9    8811 Mass…  0.251   0.0442     3      11  0.318    0.0312  0.292    0.0245
+## 10    8820 Mich… -0.0275  0.0672     4      15  0.0239   0.0385  0.00223  0.0292
+## # … with 13 more rows, 1 more variable: Biden_win_prob &lt;dbl&gt;, and abbreviated
+## #   variable names ¹​standard_deviation, ²​electoral_votes, ³​prior_average,
+## #   ⁴​prior_sd, ⁵​posterior_mean, ⁶​posterior_sd</code></pre>
+<p>Print out the table of states with Biden’s probabilities of winning.
+If a probability is larger than 99%, show &gt;99%, and if smaller than
+1% then show &lt;1%.</p>
+<pre class="r"><code># Print out the table of states with Biden&#39;s probabilities of winning
+temp &lt;- updated_results_bias |&gt; select(state, Biden_win_prob) |&gt; mutate(Biden_win = paste(as.character(round(100 * Biden_win_prob, 2)), &quot;%&quot;))
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &gt; 0.99] &lt;- &quot;&gt; 99 %&quot;
+temp[&quot;Biden_win&quot;][temp[&quot;Biden_win_prob&quot;] &lt; 0.01] &lt;- &quot;&lt; 1 %&quot;
+temp |&gt; select(state, Biden_win)</code></pre>
+<pre><code>## # A tibble: 23 × 3
+## # Groups:   race_id [23]
+##    race_id state         Biden_win
+##      &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    
+##  1    8759 Arizona       16.89 %  
+##  2    8765 Colorado      &gt; 99 %   
+##  3    8768 Connecticut   &gt; 99 %   
+##  4    8778 Florida       42.94 %  
+##  5    8781 Georgia       8.21 %   
+##  6    8788 Iowa          &lt; 1 %    
+##  7    8794 Illinois      &gt; 99 %   
+##  8    8800 Kansas        &lt; 1 %    
+##  9    8811 Massachusetts &gt; 99 %   
+## 10    8820 Michigan      53.04 %  
+## # … with 13 more rows</code></pre>
+<p>Create a Monte Carlo simulation using the updated posterior average
+and standard deviation.</p>
+<pre class="r"><code># We now start the Monte Carlo simulation based on the above result
+set.seed(1)
+B &lt;- 10000
+simulation &lt;- function(){
+  temp &lt;- c()
+  for (i in 1:length(updated_results_bias$state)){
+    temp &lt;- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc &lt;- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |&gt; ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab(&quot;Number of electoral votes Biden wins&quot;) + ylab(&quot;Count&quot;) + ggtitle(&quot;Presidential Election Possibilities&quot;) + theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="appendix_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<p>Let’s see now how likely Biden will win against Trump with the new
+posterior.</p>
+<pre class="r"><code>print(paste(&quot;According to the above plot, the probability that Biden wins the 2024 presidential election is &quot;, round(mean(result_mc &gt;= 270) * 100, 2), &quot;%&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the above plot, the probability that Biden wins the 2024 presidential election is  42.89 %&quot;</code></pre>
+<p>Give the 80% credible interval of the 2024 presidential election.</p>
+<pre class="r"><code># I use the credible_interval function in the ArchaeoPhases package to get the 80% credible interval
+result &lt;- credible_interval(data = result_mc |&gt; pull(electoral_votes_count), level = 0.8, round_to = 0)
+
+print(paste(&quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [&quot;, result$ci[1], &quot;, &quot;, result$ci[2], &quot;]&quot;))</code></pre>
+<pre><code>## [1] &quot;According to the redible_interval function in the ArchaeoPhases package, the 80% credible interval should be [ 231 ,  287 ]&quot;</code></pre>
+<p>I believe that the result above is more reasonable. It is sometimes
+the case that a president lose the midterm election but win in the
+presidential election two years later. Since I think the polls in 2020
+favor Biden and the polls in 2022 favor Trump, by mitigating the polls
+results, we should approach the results better.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
