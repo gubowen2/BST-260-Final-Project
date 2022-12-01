@@ -1,0 +1,51 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r, message = FALSE, eval = FALSE, echo = FALSE}
+install.packages('ArchaeoPhases', repos = "http://cran.us.r-project.org")
+```
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+library(tidyverse)
+library(lubridate)
+library(rvest)
+library(ggplot2)
+library(stats)
+library(ArchaeoPhases)
+```
+
+# Introduction
+
+The US presidential election is coming up on November 5, 2024. Based on the current situation, it is possible that we see a "Biden VS Trump 2.0" in the next presidential election. If that is the case, how many electoral votes will Joe Biden win in this election?
+
+To answer this question, I used two data sets from FiveThirtyEight named "president_polls" and "president_polls_historical". The first data set contains polls about the incoming 2024 presidential election and the second data set contains polls about the previous 2020 presidential election. The major information recorded in the data sets are the states where the poll is for, and the supporting rate of both Biden and Trump, which can be visualized in the following two plots, where the "spread" in the x-axis is defined as the supporting rate of Biden minus the supporting rate of Trump, and each dot in the plot represents the result of one poll.
+
+```{r, echo = FALSE}
+president_polls_2020 <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv")
+president_polls_2020 <- president_polls_2020 |> filter(cycle == 2020 & stage == "general" & !is.na(state) & candidate_name %in% c("Joe Biden", "Donald Trump") & fte_grade <= "C" | fte_grade == "C+")
+president_polls_2020["start_date"] <- mdy(president_polls_2020$start_date)
+president_polls_2020["end_date"] <- mdy(president_polls_2020$end_date)
+president_polls_2020["election_date"] <- mdy(president_polls_2020$election_date)
+president_polls_2020["candidate_name"][president_polls_2020["candidate_name"] == "Joe Biden"] = "Biden"
+president_polls_2020["candidate_name"][president_polls_2020["candidate_name"] == "Donald Trump"] = "Trump"
+president_polls_2020 <- president_polls_2020 |> select(c(-answer, -candidate_id, -party)) |> pivot_wider(names_from = "candidate_name", values_from = "pct") |> mutate(spread = (Biden - Trump) / 100) |> filter(!is.na(spread)) |> filter(!state %in% c("Nebraska CD-1", "Nebraska CD-2", "Maine CD-1", "Maine CD-2"))
+president_polls_2020 |> ggplot(aes(spread, state)) + geom_point(size = 1) + theme(text = element_text(size = 7), plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = 0, color = "red", size = 1, alpha = 0.5) + ggtitle("2020 Presidential Election Polls")
+```
+```{r, echo = FALSE}
+president_polls <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls.csv")
+president_polls <- president_polls |> filter(cycle == 2024 & stage == "general" & !is.na(state) & candidate_name %in% c("Joe Biden", "Donald Trump") & fte_grade <= "C" | fte_grade == "C+")
+president_polls["start_date"] <- mdy(president_polls$start_date)
+president_polls["end_date"] <- mdy(president_polls$end_date)
+president_polls["election_date"] <- mdy(president_polls$election_date)
+president_polls["candidate_name"][president_polls["candidate_name"] == "Joe Biden"] = "Biden"
+president_polls["candidate_name"][president_polls["candidate_name"] == "Donald Trump"] = "Trump"
+president_polls <- president_polls |> select(c(-answer, -candidate_id, -party)) |> pivot_wider(names_from = "candidate_name", values_from = "pct") |> mutate(spread = (Biden - Trump) / 100) |> filter(!is.na(spread))
+president_polls |> ggplot(aes(spread, state)) + geom_point() + theme(text = element_text(size = 9), plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = 0, color = "red", size = 1, alpha = 0.5) + ggtitle("2024 Presidential Election Polls")
+```
+
+This project went through the process of predicting how many electoral votes will Joe Biden win in the 2024 presidential election in a detailed way using poll data from FiveThirtyEight. The methodology I used is the following. First, I used web scraping to get poll data from FiveThirtyEight. I also get the table of electoral votes for each state as well as the table of the affiliation of each state from two other websites since these two pieces of information are essential when it comes to estimating the number of electoral votes that Joe Biden will win in the 2024 presidential election. Second, since the original data contains unnecessary and redundant information, I used data wrangling to remove unnecessary information in the poll data so that the data will have a clearer representation of the results. After that, since Bayesian statistical analysis is a useful and important approach used in prediction and it will be affected by different priors, I used Bayesian statistical analysis with three different priors together with the bias term to estimate the posterior of election of each state. Finally, since the posterior is a distribution and we need a method to simulate the election results of each state to calculate the number of electoral votes that Biden will win in the presidential election, I performed the Monte Carlo simulation to get the final estimation based on the posterior of each state.
