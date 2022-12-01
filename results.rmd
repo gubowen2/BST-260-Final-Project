@@ -1,0 +1,335 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r, message = FALSE, eval = FALSE, echo = FALSE}
+install.packages('ArchaeoPhases', repos = "http://cran.us.r-project.org")
+```
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+library(tidyverse)
+library(lubridate)
+library(rvest)
+library(ggplot2)
+library(stats)
+library(ArchaeoPhases)
+```
+
+# Results
+
+The data used was from FiveThirtyEight. The original data has the following major problems that makes data wrangling necessary.
+
+1. Some polls in the data only aim at getting the general supporting rate of Biden and Trump and do not target a specific state, which is irrelevant of our question when the electoral votes of each state need to be estimated.
+
+2. Although the majority of polls featuring the supporting rate of Biden and Trump, some polls show candidates besides Biden and Trump. Moreover, these candidates have very low supporting rate and should be unable to be elected as the next president. These candidates are thus unnecessary data that needs to be cleaned.
+
+3. Some pollsters' poll grade is too low to be counted as credible data.
+
+4. Some columns in the data are not in an ideal data type (e.g. the "start_date" and "end_date" column), which makes filtering according to time difficult.
+
+5. The polls shows the supporting rate of Biden and Trump in two separate rows instead of one row. Also, not all polls show the supporting rate of both Biden and Trump. These makes the calculation of the supporting rate difference difficult.
+
+6. Some states have too few polls to conduct a meaningful Bayesian statistical analysis.
+
+Apart from data wrangling, web scraping is also necessary for this project due to the following reasons.
+
+1. Information about the electoral votes for each state is needed and the information is on a table of a website.
+
+2. Information about the party affiliation of each state is needed and the information is on a table of a website.
+
+As an illustration of the data wrangling process, below are the 2024 presidential election poll data before and after the data wrangling process.
+
+**The 2024 presidential election before the data wrangling process**
+
+```{r, echo = FALSE}
+president_polls_2024 <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls.csv")
+president_polls_2024
+```
+
+**The 2024 presidential election after the data wrangling process**
+
+```{r, echo = FALSE}
+president_polls_2024 <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls.csv")
+president_polls_2024 <- president_polls_2024 |> filter(cycle == 2024 & stage == "general" & !is.na(state) & candidate_name %in% c("Joe Biden", "Donald Trump") & fte_grade <= "C" | fte_grade == "C+")
+president_polls_2024["start_date"] <- mdy(president_polls_2024$start_date)
+president_polls_2024["end_date"] <- mdy(president_polls_2024$end_date)
+president_polls_2024["election_date"] <- mdy(president_polls_2024$election_date)
+president_polls_2024["candidate_name"][president_polls_2024["candidate_name"] == "Joe Biden"] = "Biden"
+president_polls_2024["candidate_name"][president_polls_2024["candidate_name"] == "Donald Trump"] = "Trump"
+president_polls_2024 <- president_polls_2024 |> select(c(-answer, -candidate_id, -party)) |> pivot_wider(names_from = "candidate_name", values_from = "pct") |> mutate(spread = (Biden - Trump) / 100) |> filter(!is.na(spread))
+president_polls_2024
+```
+
+The data wrangling process mainly did the following.
+
+1. It clears all polls that do not target a specific state.
+
+2. It clears all candidates that are not Biden or Trump.
+
+3. It clears all pollsters with fte grade below C.
+
+4. It uses the "lubridate" package to convert the date columns of the original data into the ideal data type.
+
+5. It merges the rows of Biden and Trump of each polls into one row and creates a new column that shows the spread of the supporting rate between Biden and Trump.
+
+6. It clears all rows that does not have both the supporting rate of Biden and Trump.
+
+Besides, below were the electoral votes for each state and the party affiliation of each state table that I got after applying web scraping
+
+**The electoral votes for each state table**
+
+```{r, echo = FALSE}
+url <- "https://state.1keydata.com/state-electoral-votes.php"
+dat <- read_html(url)
+nodes <- dat |> html_nodes("table")
+votes <- html_table(nodes[[4]], header = TRUE) |> select(2, 3)
+colnames(votes)[1] <- 'state'
+colnames(votes)[2] <- 'electoral_votes'
+add <- data.frame("District of Columbia", 3)
+names(add)=c("state","electoral_votes")
+votes <- votes |> rbind(add) |> arrange(-electoral_votes, state)
+votes
+```
+
+In this table, each row shows a state and the electoral votes it has in the 2024 presidential election.
+
+**The party affiliation for each state table**
+
+```{r, echo = FALSE}
+url <- "https://www.pewresearch.org/religion/religious-landscape-study/compare/party-affiliation/by/state/"
+dat <- read_html(url)
+nodes <- dat |> html_nodes("table")
+affiliation <- html_table(nodes[[1]], header = TRUE)
+colnames(affiliation)[1] <- 'state'
+colnames(affiliation)[2] <- 'Rep'
+colnames(affiliation)[3] <- 'None'
+colnames(affiliation)[4] <- 'Dem'
+affiliation <- affiliation |> mutate(affiliation = ifelse(Dem > Rep, "B", ifelse(Rep > Dem, "R", "W")))  |> select(-"Sample	size")
+affiliation
+```
+
+In this table, each row shows a state and the party affiliation that the adults in the states consider themselves as, where the data under column "Rep" indicates the percentage that the adults in the states who consider themselves as Republicans, the data under column "None" indicates the percentage that the adults in the states who has no party affiliation, and the data under column "Dem" indicates the percentage that the adults in the states who consider themselves as Democrats. Here, I consider the state as a "Blue state" ("B" in the "affiliation" column) if it has more adults that think they are Democrat/lean Dem. and a "Red state" ("R" in the "affiliation" column) if it has more adults that think they are Republican/lean Rep. Otherwise, I label the state as a "White state" ("W" in the "affiliation" column) since it has no affiliation.
+
+For the Bayesian statistical analysis part, I used the following priors.
+
+1. Normal distribution with $\mu = 0$ and $\sigma = 0.04$ for all states.
+
+2. Normal distribution with $\mu$ equals the mean spread of the final month before the 2020 presidential election for each state and $\sigma$ equals the standard deviation of spread from 2018 to 2020 for each state.
+
+3. Normal distribution with $\mu$ equals the mean of the current mean spread and the mean spread of the final month before the 2020 presidential election for each state and $\sigma$ equals the standard deviation of spread from 2018 to 2020 for each state.
+
+I chose the normal distribution since the election result is usually normally distributed. As for the parameters in the normal distribution, the first prior is a basic one based on no knowledge about the historical election. The second prior utilized the historical election information. I chose this prior mean since we want to predict the results that are close to the election day. I chose this standard deviation since the earliest poll data from FiveThirtyEight is since 2018 and I want the standard deviation to be relatively large to account for uncertainties since I am predicting the 2024 presidential election using the data in 2022 and a lot can happen during the next two years. The third prior utilized both the historical and the current presidential election information. I chose this new prior mean since for the last month of the 2020 election, people have seen Trump's performance for the four years but they have not seen Biden's performance. As a result, the polls will go against Trump and favor Biden. However, in the 2024 presidential election, people will see how Biden performed in the four years and the polls are more likely to go against Biden. So I assume that in 2024, people have seen both Biden and Trump's performance during their presidency and their favor towards both candidates is mitigated, namely they do not favor strongly for either Biden or Trump. Based on this assumption, we can have the prior mean to be the mean of the current mean spread and the mean spread of the final month before the 2020 presidential election. The standard deviation for the new prior does not change since I still want the standard deviation to be relatively large to account for uncertainties.
+
+For each prior mentioned above, the corresponding posterior was obtained by either including a bias term or not. The bias added follows the normal distribution with $\mu = 0$ and $\sigma = 0.03$ for all states. I chose the normal distribution since the bias is usually normally distributed. The mean of the bias is set to be 0 since I do not think the bias will go towards either party. The standard deviation of the bias is set to be 0.03 according to the textbook of this course. The purpose of adding the bias term is to account for the potential uncertainty of the election, making the results more similar to a normal distribution. 
+
+After the Bayesian statistical analysis, I used the Monte Carlo simulation to simulate the election results of the states based on each posterior mean and standard deviation corresponds to the prior I used. Since not all states are included in the Bayesian statistical analysis due to the lack of poll data, I used the state affiliation data for the states that are not included in the Bayesian statistical analysis and assumed that the blue states will still be in favor of Biden and the red states will still be in favor of Trump. Then I calculated the number of electoral votes that Biden will win by combining the simulated election results and the number of electoral votes in each state and plotted a histogram to show the results. The histogram showing the number of electoral votes that Biden will win for the 2024 presidential election is the following, accompanied by Biden's winning rate and the 80% credible interval under these situations.
+
+**Prior 1, no bias**
+
+```{r, echo = FALSE}
+president_polls <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls.csv")
+president_polls <- president_polls |> filter(cycle == 2024 & stage == "general" & !is.na(state) & candidate_name %in% c("Joe Biden", "Donald Trump") & fte_grade <= "C" | fte_grade == "C+")
+president_polls["start_date"] <- mdy(president_polls$start_date)
+president_polls["end_date"] <- mdy(president_polls$end_date)
+president_polls["election_date"] <- mdy(president_polls$election_date)
+president_polls["candidate_name"][president_polls["candidate_name"] == "Joe Biden"] = "Biden"
+president_polls["candidate_name"][president_polls["candidate_name"] == "Donald Trump"] = "Trump"
+president_polls <- president_polls |> select(c(-answer, -candidate_id, -party)) |> pivot_wider(names_from = "candidate_name", values_from = "pct") |> mutate(spread = (Biden - Trump) / 100) |> filter(!is.na(spread))
+```
+
+```{r, echo = FALSE}
+results <- president_polls |> group_by(race_id, state) |> summarize(average = mean(spread), standard_deviation = sd(spread), count = length(unique(poll_id))) |> select(race_id, state, average, standard_deviation, count) |> filter(count > 1) |> left_join(votes, by = "state")
+mu <- 0.00
+tau <- 0.04
+results_no_bias <- results |> mutate(prior_average = mu, 
+                             prior_sd = tau, 
+                             sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + tau^2),
+                             posterior_mean = B * mu + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/tau^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+affiliation <- affiliation |> filter(!state %in% results_no_bias$state)
+affiliation <- left_join(affiliation, votes, by = "state")
+total_votes <- affiliation |> filter(affiliation == "B") |> pull(electoral_votes)
+Biden_win_electoral_votes <- sum(total_votes)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(results_no_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = results_no_bias$posterior_mean[i], sd = results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = results_no_bias$posterior_mean[i], sd = results_no_bias$posterior_sd[i], lower.tail = TRUE))) * results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```
+
+**Prior 1, with bias**
+
+```{r, echo = FALSE}
+mu <- 0.00
+tau <- 0.04
+bias_avg <- 0.00
+bias_sd <- 0.03
+results_bias <- results |> mutate(prior_average = mu, 
+                             prior_sd = tau, 
+                             sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + tau^2),
+                             posterior_mean = B * mu + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/tau^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(results_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = results_bias$posterior_mean[i], sd = results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = results_bias$posterior_mean[i], sd = results_bias$posterior_sd[i], lower.tail = TRUE))) * results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```
+
+**Prior 2, no bias**
+
+```{r, echo = FALSE}
+president_polls_2020 <- read_csv("https://projects.fivethirtyeight.com/polls/data/president_polls_historical.csv")
+president_polls_2020 <- president_polls_2020 |> filter(cycle == 2020 & stage == "general" & !is.na(state) & candidate_name %in% c("Joe Biden", "Donald Trump") & fte_grade <= "C" | fte_grade == "C+")
+president_polls_2020["start_date"] <- mdy(president_polls_2020$start_date)
+president_polls_2020["end_date"] <- mdy(president_polls_2020$end_date)
+president_polls_2020["election_date"] <- mdy(president_polls_2020$election_date)
+president_polls_2020["candidate_name"][president_polls_2020["candidate_name"] == "Joe Biden"] = "Biden"
+president_polls_2020["candidate_name"][president_polls_2020["candidate_name"] == "Donald Trump"] = "Trump"
+president_polls_2020 <- president_polls_2020 |> select(c(-answer, -candidate_id, -party)) |> pivot_wider(names_from = "candidate_name", values_from = "pct") |> mutate(spread = (Biden - Trump) / 100) |> filter(!is.na(spread))
+```
+
+```{r, echo = FALSE}
+temp_1 <- president_polls_2020 |> filter(start_date > election_date - months(1)) |> group_by(state) |> summarize(prior_average = mean(spread)) |> filter(!is.na(prior_average))
+temp_2 <- president_polls_2020 |> group_by(state) |> summarize(prior_sd = sd(spread)) |> filter(!is.na(prior_sd))
+updated_results <- left_join(results, temp_1, by = "state")
+updated_results <- left_join(updated_results, temp_2, by = "state")
+
+updated_results_no_bias <- updated_results |> mutate(sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(updated_results_no_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```
+
+**Prior 2, with bias**
+
+```{r, echo = FALSE}
+bias_avg <- 0.00
+bias_sd <- 0.03
+updated_results_bias <- updated_results |> mutate(sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(updated_results_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```
+
+**Prior 3, no bias**
+
+```{r, echo = FALSE}
+updated_results["prior_average"] <- (updated_results$average + updated_results$prior_average) / 2
+
+updated_results_no_bias <- updated_results |> mutate(sigma = standard_deviation/sqrt(count),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(updated_results_no_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_no_bias$posterior_mean[i], sd = updated_results_no_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_no_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```
+
+**Prior 3, with bias**
+
+```{r, echo = FALSE}
+bias_avg <- 0.00
+bias_sd <- 0.03
+updated_results_bias <- updated_results |> mutate(sigma = sqrt(standard_deviation^2/count  + bias_sd^2),
+                             B = sigma^2 / (sigma^2 + prior_sd^2),
+                             posterior_mean = B * prior_average + (1 - B) * average,
+                             posterior_sd = sqrt(1/ (1/sigma^2 + 1/prior_sd^2)),
+                             Biden_win_prob = 1-pnorm(0, posterior_mean, posterior_sd)) |> select(-sigma, -B)
+
+set.seed(1)
+B <- 10000
+simulation <- function(){
+  temp <- c()
+  for (i in 1:length(updated_results_bias$state)){
+    temp <- c(sample(c(1, 0), size = 1, replace = TRUE, prob = c(pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = FALSE), pnorm(0, mean = updated_results_bias$posterior_mean[i], sd = updated_results_bias$posterior_sd[i], lower.tail = TRUE))) * updated_results_bias$electoral_votes[i], temp)
+  }
+  sum(temp) + Biden_win_electoral_votes
+}
+result_mc <- data.frame(electoral_votes_count = replicate(B, simulation()))
+result_mc |> ggplot(aes(x = electoral_votes_count)) + geom_histogram() + xlab("Number of electoral votes Biden wins") + ylab("Count") + ggtitle("Presidential Election Possibilities") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r, echo = FALSE}
+result <- credible_interval(data = result_mc |> pull(electoral_votes_count), level = 0.8, round_to = 0)
+print(paste("Biden has about ", round(mean(result_mc >= 270) * 100, 2), "% probability to win the 2024 presidential election. The corresponding 80% credible interval is [", result$ci[1], ", ", result$ci[2], "]"))
+```

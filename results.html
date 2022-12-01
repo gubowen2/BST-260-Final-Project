@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>results.knit</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BST 260 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="introduction.html">Introduction</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="conclusion.html">Conclusion</a>
+</li>
+<li>
+  <a href="references.html">References</a>
+</li>
+<li>
+  <a href="appendix.html">Appendix</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>The data used was from FiveThirtyEight. The original data has the
+following major problems that makes data wrangling necessary.</p>
+<ol style="list-style-type: decimal">
+<li><p>Some polls in the data only aim at getting the general supporting
+rate of Biden and Trump and do not target a specific state, which is
+irrelevant of our question when the electoral votes of each state need
+to be estimated.</p></li>
+<li><p>Although the majority of polls featuring the supporting rate of
+Biden and Trump, some polls show candidates besides Biden and Trump.
+Moreover, these candidates have very low supporting rate and should be
+unable to be elected as the next president. These candidates are thus
+unnecessary data that needs to be cleaned.</p></li>
+<li><p>Some pollsters’ poll grade is too low to be counted as credible
+data.</p></li>
+<li><p>Some columns in the data are not in an ideal data type (e.g. the
+“start_date” and “end_date” column), which makes filtering according to
+time difficult.</p></li>
+<li><p>The polls shows the supporting rate of Biden and Trump in two
+separate rows instead of one row. Also, not all polls show the
+supporting rate of both Biden and Trump. These makes the calculation of
+the supporting rate difference difficult.</p></li>
+<li><p>Some states have too few polls to conduct a meaningful Bayesian
+statistical analysis.</p></li>
+</ol>
+<p>Apart from data wrangling, web scraping is also necessary for this
+project due to the following reasons.</p>
+<ol style="list-style-type: decimal">
+<li><p>Information about the electoral votes for each state is needed
+and the information is on a table of a website.</p></li>
+<li><p>Information about the party affiliation of each state is needed
+and the information is on a table of a website.</p></li>
+</ol>
+<p>As an illustration of the data wrangling process, below are the 2024
+presidential election poll data before and after the data wrangling
+process.</p>
+<p><strong>The 2024 presidential election before the data wrangling
+process</strong></p>
+<pre><code>## # A tibble: 1,171 × 42
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81695        1726 Premise        NA &lt;NA&gt;    Premise     709 Premise &lt;NA&gt;   
+##  2   81695        1726 Premise        NA &lt;NA&gt;    Premise     709 Premise &lt;NA&gt;   
+##  3   81695        1726 Premise        NA &lt;NA&gt;    Premise     709 Premise &lt;NA&gt;   
+##  4   81695        1726 Premise        NA &lt;NA&gt;    Premise     709 Premise &lt;NA&gt;   
+##  5   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+##  6   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+##  7   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+##  8   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+##  9   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## 10   81694        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## # … with 1,161 more rows, 33 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;chr&gt;, end_date &lt;chr&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p><strong>The 2024 presidential election after the data wrangling
+process</strong></p>
+<pre><code>## # A tibble: 116 × 40
+##    poll_id pollster_id pollster  spons…¹ spons…² displ…³ polls…⁴ polls…⁵ fte_g…⁶
+##      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1   81636         460 SurveyUSA     761 WNYT-TV Survey…     325 Survey… A      
+##  2   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  3   81625        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  4   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  5   81626        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  6   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  7   81627        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  8   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+##  9   81628        1477 Targoz M…    1477 PollSm… Targoz…     454 Targoz… B/C    
+## 10   81544        1102 Emerson …      NA &lt;NA&gt;    Emerso…      88 Emerso… A-     
+## # … with 106 more rows, 31 more variables: methodology &lt;chr&gt;, state &lt;chr&gt;,
+## #   start_date &lt;date&gt;, end_date &lt;date&gt;, sponsor_candidate_id &lt;dbl&gt;,
+## #   sponsor_candidate &lt;chr&gt;, sponsor_candidate_party &lt;chr&gt;, question_id &lt;dbl&gt;,
+## #   sample_size &lt;dbl&gt;, population &lt;chr&gt;, subpopulation &lt;lgl&gt;,
+## #   population_full &lt;chr&gt;, tracking &lt;lgl&gt;, created_at &lt;chr&gt;, notes &lt;chr&gt;,
+## #   url &lt;chr&gt;, source &lt;dbl&gt;, internal &lt;lgl&gt;, partisan &lt;chr&gt;, race_id &lt;dbl&gt;,
+## #   cycle &lt;dbl&gt;, office_type &lt;chr&gt;, seat_number &lt;dbl&gt;, seat_name &lt;lgl&gt;, …</code></pre>
+<p>The data wrangling process mainly did the following.</p>
+<ol style="list-style-type: decimal">
+<li><p>It clears all polls that do not target a specific state.</p></li>
+<li><p>It clears all candidates that are not Biden or Trump.</p></li>
+<li><p>It clears all pollsters with fte grade below C.</p></li>
+<li><p>It uses the “lubridate” package to convert the date columns of
+the original data into the ideal data type.</p></li>
+<li><p>It merges the rows of Biden and Trump of each polls into one row
+and creates a new column that shows the spread of the supporting rate
+between Biden and Trump.</p></li>
+<li><p>It clears all rows that does not have both the supporting rate of
+Biden and Trump.</p></li>
+</ol>
+<p>Besides, below were the electoral votes for each state and the party
+affiliation of each state table that I got after applying web
+scraping</p>
+<p><strong>The electoral votes for each state table</strong></p>
+<pre><code>## # A tibble: 51 × 2
+##    state          electoral_votes
+##    &lt;chr&gt;                    &lt;dbl&gt;
+##  1 California                  54
+##  2 Texas                       40
+##  3 Florida                     30
+##  4 New York                    28
+##  5 Illinois                    19
+##  6 Pennsylvania                19
+##  7 Ohio                        17
+##  8 Georgia                     16
+##  9 North Carolina              16
+## 10 Michigan                    15
+## # … with 41 more rows</code></pre>
+<p>In this table, each row shows a state and the electoral votes it has
+in the 2024 presidential election.</p>
+<p><strong>The party affiliation for each state table</strong></p>
+<pre><code>## # A tibble: 51 × 5
+##    state                Rep   None  Dem   affiliation
+##    &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      
+##  1 Alabama              52%   13%   35%   R          
+##  2 Alaska               39%   29%   32%   R          
+##  3 Arizona              40%   21%   39%   R          
+##  4 Arkansas             46%   16%   38%   R          
+##  5 California           30%   21%   49%   B          
+##  6 Colorado             41%   17%   42%   B          
+##  7 Connecticut          32%   18%   50%   B          
+##  8 Delaware             29%   17%   55%   B          
+##  9 District of Columbia 11%   15%   73%   B          
+## 10 Florida              37%   19%   44%   B          
+## # … with 41 more rows</code></pre>
+<p>In this table, each row shows a state and the party affiliation that
+the adults in the states consider themselves as, where the data under
+column “Rep” indicates the percentage that the adults in the states who
+consider themselves as Republicans, the data under column “None”
+indicates the percentage that the adults in the states who has no party
+affiliation, and the data under column “Dem” indicates the percentage
+that the adults in the states who consider themselves as Democrats.
+Here, I consider the state as a “Blue state” (“B” in the “affiliation”
+column) if it has more adults that think they are Democrat/lean Dem. and
+a “Red state” (“R” in the “affiliation” column) if it has more adults
+that think they are Republican/lean Rep. Otherwise, I label the state as
+a “White state” (“W” in the “affiliation” column) since it has no
+affiliation.</p>
+<p>For the Bayesian statistical analysis part, I used the following
+priors.</p>
+<ol style="list-style-type: decimal">
+<li><p>Normal distribution with <span class="math inline">\(\mu =
+0\)</span> and <span class="math inline">\(\sigma = 0.04\)</span> for
+all states.</p></li>
+<li><p>Normal distribution with <span class="math inline">\(\mu\)</span>
+equals the mean spread of the final month before the 2020 presidential
+election for each state and <span class="math inline">\(\sigma\)</span>
+equals the standard deviation of spread from 2018 to 2020 for each
+state.</p></li>
+<li><p>Normal distribution with <span class="math inline">\(\mu\)</span>
+equals the mean of the current mean spread and the mean spread of the
+final month before the 2020 presidential election for each state and
+<span class="math inline">\(\sigma\)</span> equals the standard
+deviation of spread from 2018 to 2020 for each state.</p></li>
+</ol>
+<p>I chose the normal distribution since the election result is usually
+normally distributed. As for the parameters in the normal distribution,
+the first prior is a basic one based on no knowledge about the
+historical election. The second prior utilized the historical election
+information. I chose this prior mean since we want to predict the
+results that are close to the election day. I chose this standard
+deviation since the earliest poll data from FiveThirtyEight is since
+2018 and I want the standard deviation to be relatively large to account
+for uncertainties since I am predicting the 2024 presidential election
+using the data in 2022 and a lot can happen during the next two years.
+The third prior utilized both the historical and the current
+presidential election information. I chose this new prior mean since for
+the last month of the 2020 election, people have seen Trump’s
+performance for the four years but they have not seen Biden’s
+performance. As a result, the polls will go against Trump and favor
+Biden. However, in the 2024 presidential election, people will see how
+Biden performed in the four years and the polls are more likely to go
+against Biden. So I assume that in 2024, people have seen both Biden and
+Trump’s performance during their presidency and their favor towards both
+candidates is mitigated, namely they do not favor strongly for either
+Biden or Trump. Based on this assumption, we can have the prior mean to
+be the mean of the current mean spread and the mean spread of the final
+month before the 2020 presidential election. The standard deviation for
+the new prior does not change since I still want the standard deviation
+to be relatively large to account for uncertainties.</p>
+<p>For each prior mentioned above, the corresponding posterior was
+obtained by either including a bias term or not. The bias added follows
+the normal distribution with <span class="math inline">\(\mu =
+0\)</span> and <span class="math inline">\(\sigma = 0.03\)</span> for
+all states. I chose the normal distribution since the bias is usually
+normally distributed. The mean of the bias is set to be 0 since I do not
+think the bias will go towards either party. The standard deviation of
+the bias is set to be 0.03 according to the textbook of this course. The
+purpose of adding the bias term is to account for the potential
+uncertainty of the election, making the results more similar to a normal
+distribution.</p>
+<p>After the Bayesian statistical analysis, I used the Monte Carlo
+simulation to simulate the election results of the states based on each
+posterior mean and standard deviation corresponds to the prior I used.
+Since not all states are included in the Bayesian statistical analysis
+due to the lack of poll data, I used the state affiliation data for the
+states that are not included in the Bayesian statistical analysis and
+assumed that the blue states will still be in favor of Biden and the red
+states will still be in favor of Trump. Then I calculated the number of
+electoral votes that Biden will win by combining the simulated election
+results and the number of electoral votes in each state and plotted a
+histogram to show the results. The histogram showing the number of
+electoral votes that Biden will win for the 2024 presidential election
+is the following, accompanied by Biden’s winning rate and the 80%
+credible interval under these situations.</p>
+<p><strong>Prior 1, no bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  8.75 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 221 ,  261 ]&quot;</code></pre>
+<p><strong>Prior 1, with bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  30.45 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 227 ,  285 ]&quot;</code></pre>
+<p><strong>Prior 2, no bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  44.96 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 246 ,  295 ]&quot;</code></pre>
+<p><strong>Prior 2, with bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  87.74 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 265 ,  322 ]&quot;</code></pre>
+<p><strong>Prior 3, no bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  15.42 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 221 ,  265 ]&quot;</code></pre>
+<p><strong>Prior 3, with bias</strong></p>
+<p><img src="results_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Biden has about  42.89 % probability to win the 2024 presidential election. The corresponding 80% credible interval is [ 231 ,  287 ]&quot;</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
